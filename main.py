@@ -1,44 +1,44 @@
-from astroquery.mast import Observations
+from astroquery.skyview import SkyView
+import os
 
-# Rechercher des observations sur MAST
-def search_and_download_files(target_name, download_path):
-    print("Début de la recherche d'observations pour :", target_name)
 
-    # Effectuer une recherche des observations avec un critère d'ID spécifique
+# Fonction pour télécharger plusieurs fichiers FITS d'un objet céleste
+def download_fits_files(target_name, surveys, save_path):
     try:
-        # ID d'observation spécifique pour JWST
-        observations = Observations.query_criteria(
-            obs_collection="JWST",
-            dataRights="public", 
-            obs_id="jw02731-o001_t017_nircam_clear-f090w"
-        )
-        print(f"Nombre d'observations trouvées pour {target_name} : {len(observations)}")
+        print(f"Recherche des images pour {target_name} dans les relevés : {surveys}")
+
+        # Initialiser l'objet SkyView
+        skyview = SkyView()
+
+        # Téléchargement des images FITS
+        # "get_images" nécessite la position (target_name) et le(s) survey(s) spécifié(s)
+        fits_files = skyview.get_images(position="M1", survey=['Fermi 5', 'HRI', 'DSS'])
+
+        # Vérifier si des fichiers ont été récupérés
+        if not fits_files:
+            print(f"Aucune image disponible pour {target_name} dans les relevés demandés.")
+            return
+
+        # Sauvegarde des fichiers FITS
+        for idx, hdul in enumerate(fits_files):
+            survey_name = surveys[idx].replace(" ", "_")  # Remplacer les espaces pour le nom de fichier
+            file_path = f"{save_path}/{target_name.replace(' ', '_')}_{survey_name}.fits"
+            hdul.writeto(file_path, overwrite=True)
+            print(f"Fichier FITS sauvegardé : {file_path}")
+
+        print("Tous les fichiers ont été téléchargés et enregistrés.")
+
     except Exception as e:
-        print("Erreur lors de la recherche d'observations :", e)
-        return
-
-    # Télécharger tous les produits associés, sans filtrage spécifique
-    try:
-        print("Récupération de la liste des produits...")
-        products = Observations.get_product_list(observations)
-        print(f"Nombre total de produits trouvés : {len(products)}")
-    except Exception as e:
-        print("Erreur lors de la récupération de la liste des produits :", e)
-        return
-
-    # Télécharger les fichiers sans aucun filtrage
-    try:
-        print("Téléchargement des fichiers...")
-        download_results = Observations.download_products(products, download_dir=download_path, mrp_only=True)
-        print(f"Téléchargement terminé. Les fichiers sont enregistrés dans : {download_path}")
-    except Exception as e:
-        print("Erreur lors du téléchargement des fichiers :", e)
-        return
+        print(f"Erreur lors du téléchargement des fichiers FITS : {e}")
 
 
-# Remplissez ici le nom de l'objet cible et le chemin de téléchargement
-target_name = "NGC 3324"  # Exemple : région "Carina Nebula"
-download_path = "./jwst_fits_files"  # Chemin où les fichiers seront téléchargés
+# Exemple d'utilisation
+target_name = "NGC 3324"  # Exemple : nébuleuse dans la région Carina
+surveys = ["DSS2 Red", "2MASS-J", "GALEX Near UV"]  # Liste corrigée des relevés
+save_path = "./fits_files"  # Répertoire pour enregistrer les fichiers
+
+# Créer le dossier si nécessaire
+os.makedirs(save_path, exist_ok=True)
 
 # Lancer le téléchargement
-search_and_download_files(target_name, download_path)
+download_fits_files(target_name, surveys, save_path)
