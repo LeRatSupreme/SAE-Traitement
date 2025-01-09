@@ -1,6 +1,7 @@
 # Ignorer l'environnement virtuel
 env/
 .idea/
+.ipynb_checkpoints/
 
 # Ignorer les fichiers Python compilés
 __pycache__/
