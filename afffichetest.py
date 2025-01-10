@@ -11,9 +11,9 @@ def normalize(data, min_percent=1, max_percent=99):
     data = np.clip(data, min_val, max_val)
     return (data - min_val) / (max_val - min_val)
 
-fits_file1 = fits.open('Tarantula/Tarantula_Nebula-halpha.fit')
-fits_file2 = fits.open('Tarantula/Tarantula_Nebula-oiii.fit')
-fits_file3 = fits.open('Tarantula/Tarantula_Nebula-sii.fit')
+fits_file1 = fits.open('tarantula_fits/30_Doradus_DSS2_Red_0.fits')
+fits_file2 = fits.open('tarantula_fits/30_Doradus_2MASS-J_0.fits')
+fits_file3 = fits.open('tarantula_fits/30_Doradus_GALEX_Near_UV_0.fits')
 
 image_data1 = fits_file1[0].data
 image_data2 = fits_file2[0].data
@@ -30,6 +30,7 @@ image_data3 = normalize(image_data3)
 combined_data = (image_data2 + image_data3) / 2
 
 rgba_image = np.zeros((image_data1.shape[0], image_data1.shape[1], 4))
+#Verifier ca pas fini
 rgba_image[..., 0] = image_data1  # Red channel
 rgba_image[..., 1] = image_data2  # Green channel
 rgba_image[..., 2] = image_data3  # Blue channel

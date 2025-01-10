@@ -12,7 +12,7 @@ def download_fits_files(target_name, surveys, save_path):
 
         # Téléchargement des images FITS
         # "get_images" nécessite la position (target_name) et le(s) survey(s) spécifié(s)
-        fits_files = skyview.get_images(position="M1", survey=['Fermi 5', 'HRI', 'DSS'])
+        fits_files = skyview.get_images(position="NGC 3132", survey=["DSS2 Red", "2MASS-J", "GALEX Near UV"])
 
         # Vérifier si des fichiers ont été récupérés
         if not fits_files:
