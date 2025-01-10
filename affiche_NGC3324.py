@@ -31,9 +31,9 @@ combined_data = (image_data2 + image_data3) / 2
 
 rgba_image = np.zeros((image_data1.shape[0], image_data1.shape[1], 4))
 #Verifier ca pas fini
-rgba_image[..., 0] = image_data1  # Red channel
-rgba_image[..., 1] = image_data2  # Green channel
-rgba_image[..., 2] = image_data3  # Blue channel
+rgba_image[..., 0] = image_data2  # Red channel
+rgba_image[..., 1] = image_data3  # Green channel
+rgba_image[..., 2] = image_data1  # Blue channel
 rgba_image[..., 3] = 1.0  # Alpha channel
 
 zoom_x_min, zoom_x_max = 1200, 1800
