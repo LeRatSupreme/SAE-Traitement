@@ -22,8 +22,8 @@ Cette application permet aux utilisateurs de télécharger et de traiter des ima
 
 1. Clonez le dépôt :
     ```sh
-    git clone https://github.com/LeRatSupreme/image-download-processing.git
-    cd image-download-processing
+    git clone https://github.com/LeRatSupreme/SAE-Traitement.git
+    cd SAE-Traitement
     ```
 
 2. Installez les dépendances requises :
