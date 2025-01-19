@@ -1,13 +1,25 @@
-# src/model/model.py
-
 from astroquery.skyview import SkyView
 import os
 
 class DownloadModel:
+    """
+    Model class for downloading FITS files using the SkyView service.
+    """
     def __init__(self):
+        """
+        Initialize the DownloadModel with a SkyView instance.
+        """
         self.skyview = SkyView()
 
     def download_fits_files(self, target_name, surveys, save_path):
+        """
+        Download FITS files for a given target name from specified surveys and save them to the specified path.
+
+        :param target_name: The name of the target object.
+        :param surveys: List of surveys to download from.
+        :param save_path: Path to save the downloaded files.
+        :return: True if the download was successful, False otherwise.
+        """
         try:
             print(f"Recherche des images pour {target_name} dans les relevés : {surveys}")
 
